@@ -1,61 +1,16 @@
 <?php
 
-$coffees = [
-    [
-        'name' => "Café Cremoso",
-        'description' => "Café cremoso irresistivelmente suave e que envolve seu paladar",
-        'price' => "5.00",
-        'image' => "img/cafe-cremoso.jpg"
-    ],
-    [
-        'name' => "Café com Leite",
-        'description' => "A harmonia do café e do leite, uma experiência reconfortante",
-        'price' => "2.00",
-        'image' => "img/cafe-com-leite.jpg"
-    ],
-    [
-        'name' => "Cappuccino",
-        'description' => "Café suave, leite cremoso e uma pitada de sabor adocicado",
-        'price' => "7.00",
-        'image' => "img/cappuccino.jpg"
-    ],
-    [
-        'name' => "Café Gelado",
-        'description' => "Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.",
-        'price' => "3.00",
-        'image' => "img/cafe-gelado.jpg"
-    ]
-];
+require 'vendor/autoload.php';
 
-$lunches = [
-    [
-        'name' => "Bife",
-        'description' => "Bife, arroz com feijão e uma deliciosa batata frita",
-        'price' => "27.90",
-        'image' => "img/bife.jpg"
-    ],
-    [
-        'name' => "Filé de peixe",
-        'description' => "Filé de peixe salmão assado, arroz, feijão verde e tomate.",
-        'price' => "24.99",
-        'image' => "img/prato-peixe.jpg"
-    ],
-    [
-        'name' => "Frango",
-        'description' => "Saboroso frango à milanesa com batatas fritas, salada de repolho e molho picante",
-        'price' => "23.00",
-        'image' => "img/prato-frango.jpg"
-    ],
-    [
-        'name' => "Fettuccine",
-        'description' => "Prato italiano autêntico da massa do fettuccine com peito de frango grelhado",
-        'price' => "22.50",
-        'image' => "img/fettuccine.jpg"
-    ]
-];
+use Diogopachecodev\SerenattoCoffee\Infrastructure\Repository\PdoProductRepository;
+
+$pdo = Diogopachecodev\SerenattoCoffee\Infrastructure\Persistence\Database::connect();
+$productRepository = new PdoProductRepository($pdo);
+
+$coffees = $productRepository->allCoffees();
+$lunches = $productRepository->allLunches();
 
 ?>
-
 
 <!doctype html>
 <html lang="pt-br">
@@ -90,11 +45,11 @@ $lunches = [
                 <?php foreach($coffees as $coffee): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $coffee['image'] ?>">
+                            <img src="<?= $coffee->imagePath() ?>">
                         </div>
-                        <p><?= $coffee['name'] ?></p>
-                        <p><?= $coffee['description'] ?></p>
-                        <p><?= "R$ " . $coffee['price'] ?></p>
+                        <p><?= $coffee->name() ?></p>
+                        <p><?= $coffee->description() ?></p>
+                        <p><?= $coffee->priceFormatted() ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -108,11 +63,11 @@ $lunches = [
                 <?php foreach($lunches as $lunch): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $lunch['image'] ?>">
+                            <img src="<?= $lunch->imagePath() ?>">
                         </div>
-                        <p><?= $lunch['name'] ?></p>
-                        <p><?= $lunch['description'] ?></p>
-                        <p><?= "R$ " . $lunch['price'] ?></p>
+                        <p><?= $lunch->name() ?></p>
+                        <p><?= $lunch->description() ?></p>
+                        <p><?= $lunch->priceFormatted() ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
