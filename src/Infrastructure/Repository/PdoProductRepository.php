@@ -16,10 +16,7 @@ class PdoProductRepository implements ProductRepository
 
     public function allProducts(): array
     {
-        $stmt = $this->connection
-            ->prepare(" SELECT * 
-                        FROM products");
-
+        $stmt = $this->connection->prepare(" SELECT * FROM products");
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
@@ -27,11 +24,7 @@ class PdoProductRepository implements ProductRepository
 
     public function allCoffees(): array
     {
-        $stmt = $this->connection
-            ->prepare(" SELECT * 
-                        FROM products
-                        WHERE type = 'coffee'");
-
+        $stmt = $this->connection->prepare("SELECT * FROM productsWHERE type = 'coffee'");
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
@@ -39,14 +32,18 @@ class PdoProductRepository implements ProductRepository
 
     public function allLunches(): array
     {
-        $stmt = $this->connection
-            ->prepare(" SELECT * 
-                        FROM products
-                        WHERE type = 'lunch'");
-
+        $stmt = $this->connection->prepare(" SELECT * FROM products WHERE type = 'lunch'");
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
+    }
+
+    public function deleteProduct(int $id): bool
+    {
+        $stmt = $this->connection->prepare("DELETE FROM products WHERE id = :id");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 
     private function hydrateProductsList(\PDOStatement $stmt): array
