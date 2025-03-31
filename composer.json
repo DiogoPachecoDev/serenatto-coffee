@@ -1,0 +1,37 @@
+{
+    "name": "diogopachecodev/serenatto-coffee",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Diogopachecodev\\SerenattoCoffee\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Diogo Pacheco Barcelos",
+            "email": "142947989+DiogoPachecoDev@users.noreply.github.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.12",
+        "phan/phan": "^5.4"
+    },
+    "scripts": {
+        "phan": "phan --allow-polyfill-parser",
+        "cs": "phpcs --standard=PSR12 src",
+        "dev": "php src/index.php",
+        "prod": [
+            "@phan",
+            "@cs"
+        ],
+        "post-update-cmd": [
+            "@prod"
+        ]
+    },
+    "scripts-descriptions": {
+        "phan": "validates writing errors in the code",
+        "cs": "validates the writing pattern following PSR12",
+        "prod": "validates the code before uploading it to production"
+    }
+}
