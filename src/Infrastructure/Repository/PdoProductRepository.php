@@ -14,6 +14,17 @@ class PdoProductRepository implements ProductRepository
         $this->connection = $connection;
     }
 
+    public function allProducts(): array
+    {
+        $stmt = $this->connection
+            ->prepare(" SELECT * 
+                        FROM products");
+
+        $stmt->execute();
+
+        return $this->hydrateProductsList($stmt);
+    }
+
     public function allCoffees(): array
     {
         $stmt = $this->connection

@@ -1,3 +1,16 @@
+<?php
+
+require 'vendor/autoload.php';
+
+use Diogopachecodev\SerenattoCoffee\Infrastructure\Repository\PdoProductRepository;
+
+$pdo = Diogopachecodev\SerenattoCoffee\Infrastructure\Persistence\Database::connect();
+$productRepository = new PdoProductRepository($pdo);
+
+$products = $productRepository->allProducts();
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -36,43 +49,20 @@
         </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>Bife</td>
-        <td>Almoço</td>
-        <td>Delicioso prato</td>
-        <td>R$ 25.00</td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
-        <td>
-          <form>
-            <input type="button" class="botao-excluir" value="Excluir">
-          </form>
-        </td>
-        
-      </tr>
-      <tr>
-        <td>Frango</td>
-        <td>Almoço</td>
-        <td>Delicioso prato</td>
-        <td>R$ 25.00</td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
-        <td>
-          <form>
-            <input type="button" class="botao-excluir" value="Excluir">
-          </form>
-        </td>
-      </tr>
-      <tr>
-        <td>Café Gelado</td>
-        <td>Café</td>
-        <td>Delicioso prato</td>
-        <td>R$ 25.00</td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
-        <td>
-          <form>
-            <input type="button" class="botao-excluir" value="Excluir">
-          </form>
-        </td>
-      </tr>
+        <?php foreach ($products as $product): ?>
+          <tr>
+            <td><?= $product->name() ?></td>
+            <td><?= $product->type() ?></td>
+            <td><?= $product->description() ?></td>
+            <td><?= $product->priceFormatted() ?></td>
+            <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
+            <td>
+              <form>
+                <input type="submit" class="botao-excluir" value="delete">
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
       </tbody>
     </table>
   <a class="botao-cadastrar" href="cadastrar-produto.html">Cadastrar produto</a>
