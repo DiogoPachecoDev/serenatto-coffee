@@ -57,7 +57,7 @@ class Product {
 
     public function imagePath(): string
     {
-        return 'public/img/' . $this->image;
+        return '../public/img/' . $this->image;
     }
 
     public function priceFormatted(): string
