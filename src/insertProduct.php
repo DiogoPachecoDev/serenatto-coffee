@@ -50,7 +50,7 @@ if(!empty($_POST)) {
         <img class= "ornaments" src="../public/img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form action="#" method="POST" enctype="multipart/form-data">>
+        <form action="#" method="POST" enctype="multipart/form-data">
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="name" placeholder="Digite o nome do produto" required>
 
