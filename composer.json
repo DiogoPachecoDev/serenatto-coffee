@@ -12,7 +12,9 @@
             "email": "diogopachecopb269@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "dompdf/dompdf": "*"
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.12",
         "phan/phan": "^5.4"
