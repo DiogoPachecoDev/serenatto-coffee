@@ -16,7 +16,7 @@ class PdoProductRepository implements ProductRepository
 
     public function allProducts(): array
     {
-        $stmt = $this->connection->prepare(" SELECT * FROM products");
+        $stmt = $this->connection->prepare("SELECT * FROM products");
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
@@ -32,10 +32,19 @@ class PdoProductRepository implements ProductRepository
 
     public function allLunches(): array
     {
-        $stmt = $this->connection->prepare(" SELECT * FROM products WHERE type = 'lunch'");
+        $stmt = $this->connection->prepare("SELECT * FROM products WHERE type = 'lunch'");
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
+    }
+
+    public function getProduct(int $id): Product
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $this->hydrateProduct($stmt);
     }
 
     public function insertProduct(Product $product): bool
@@ -50,12 +59,41 @@ class PdoProductRepository implements ProductRepository
         return $stmt->execute();
     }
 
+    public function updateProduct(Product $product): bool
+    {
+        $stmt = $this->connection->prepare("UPDATE products SET name = :name, type = :type, description = :description, price = :price, image = :image WHERE id = :id");
+        $stmt->bindValue(':name', $product->name(), \PDO::PARAM_STR);
+        $stmt->bindValue(':type', $product->type(), \PDO::PARAM_STR);
+        $stmt->bindValue(':description', $product->description(), \PDO::PARAM_STR);
+        $stmt->bindValue(':price', $product->price(), \PDO::PARAM_STR);
+        $stmt->bindValue(':image', $product->image(), \PDO::PARAM_STR);
+        $stmt->bindValue(':id', $product->id(), \PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
     public function deleteProduct(int $id): bool
     {
         $stmt = $this->connection->prepare("DELETE FROM products WHERE id = :id");
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
 
         return $stmt->execute();
+    }
+
+    private function hydrateProduct(\PDOStatement $stmt): Product
+    {
+        $product = $stmt->fetch();
+
+        $product = new Product(
+            $product['id'],
+            $product['type'],
+            $product['name'],
+            $product['description'],
+            $product['image'],
+            $product['price']
+        );
+
+        return $product;
     }
 
     private function hydrateProductsList(\PDOStatement $stmt): array

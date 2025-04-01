@@ -59,4 +59,22 @@ class Product {
     {
         return 'R$ ' . number_format($this->price, 2, ',', '.');
     }
+
+    public function typeFormatted(): string
+    {
+        $type = "";
+
+        switch($this->type) {
+            case 'coffee':
+                $type = "Café";
+            break;
+
+            case 'lunch':
+                $type = "Almoço";
+            break;
+        }
+
+        return $type;
+    }
+
 }

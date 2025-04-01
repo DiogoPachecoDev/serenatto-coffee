@@ -52,10 +52,10 @@ $products = $productRepository->allProducts();
         <?php foreach ($products as $product): ?>
           <tr>
             <td><?= $product->name() ?></td>
-            <td><?= $product->type() ?></td>
+            <td><?= $product->typeFormatted() ?></td>
             <td><?= $product->description() ?></td>
             <td><?= $product->priceFormatted() ?></td>
-            <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
+            <td><a class="botao-editar" href="./editar-produto.php?id=<?= $product->id() ?>">Editar</a></td>
             <td>
               <form action="./excluir-produto.php" method="POST">
                 <input type="hidden" name="id" value="<?= $product->id() ?>">

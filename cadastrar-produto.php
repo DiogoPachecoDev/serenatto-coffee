@@ -12,10 +12,8 @@ if(!empty($_POST)) {
     $product = new Product(null, $_POST['type'], $_POST['name'], $_POST['description'], $_POST['image'], (float) str_replace(['.', ',', ], ['', '.'], $_POST['price']));
     $products = $productRepository->insertProduct($product);
 
-    if($products) {
-        header('Location: ./admin.php');
-        exit();
-    }
+    header('Location: ./admin.php');
+    exit();
 }
 
 ?>
@@ -47,7 +45,6 @@ if(!empty($_POST)) {
     </section>
     <section class="container-form">
         <form action="#" method="POST">
-
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="name" placeholder="Digite o nome do produto" required>
 
@@ -73,7 +70,6 @@ if(!empty($_POST)) {
 
             <input type="submit" class="botao-cadastrar" value="Cadastrar produto"/>
         </form>
-    
     </section>
 </main>
 
