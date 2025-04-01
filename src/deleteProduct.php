@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 use Diogopachecodev\SerenattoCoffee\Infrastructure\Repository\PdoProductRepository;
 
@@ -11,5 +11,5 @@ if(!empty($_POST)) {
     $productRepository->deleteProduct($_POST['id']);
 }
 
-header('Location: ./admin.php');
+header('Location: ../admin.php');
 exit();

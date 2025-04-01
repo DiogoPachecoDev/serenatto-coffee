@@ -50,9 +50,14 @@ class Product {
         return $this->price;
     }
 
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
+    }
+
     public function imagePath(): string
     {
-        return 'img/' . $this->image;
+        return 'public/img/' . $this->image;
     }
 
     public function priceFormatted(): string
