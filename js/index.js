@@ -1,1 +1,5 @@
-var preco = $('#preco').maskMoney()
+var preco = $('#preco').maskMoney({
+    allowNegative: false,
+    thousands: '.',
+    decimal: ',',
+});

@@ -24,7 +24,7 @@ class PdoProductRepository implements ProductRepository
 
     public function allCoffees(): array
     {
-        $stmt = $this->connection->prepare("SELECT * FROM productsWHERE type = 'coffee'");
+        $stmt = $this->connection->prepare("SELECT * FROM products WHERE type = 'coffee'");
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
@@ -36,6 +36,18 @@ class PdoProductRepository implements ProductRepository
         $stmt->execute();
 
         return $this->hydrateProductsList($stmt);
+    }
+
+    public function insertProduct(Product $product): bool
+    {
+        $stmt = $this->connection->prepare("INSERT INTO products (name, type, description, price, image) VALUES (:name, :type, :description, :price, :image)");
+        $stmt->bindValue(':name', $product->name(), \PDO::PARAM_STR);
+        $stmt->bindValue(':type', $product->type(), \PDO::PARAM_STR);
+        $stmt->bindValue(':description', $product->description(), \PDO::PARAM_STR);
+        $stmt->bindValue(':price', $product->price(), \PDO::PARAM_STR);
+        $stmt->bindValue(':image', $product->image(), \PDO::PARAM_STR);
+
+        return $stmt->execute();
     }
 
     public function deleteProduct(int $id): bool
